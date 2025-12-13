@@ -68,7 +68,7 @@ export default function Hero() {
               View Projects
             </a>
             <a 
-              href="/Taufiq Resume.pdf" 
+              href="/AI Taufiq Resume.pdf" 
               download="Taufiq_Hashmi_Resume.pdf"
               className="inline-flex h-12 items-center justify-center rounded-md bg-white px-8 text-sm font-medium text-black shadow transition-colors hover:bg-gray-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
             >
