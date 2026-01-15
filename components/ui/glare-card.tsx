@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 export const GlareCard = ({
   children,
@@ -29,8 +29,8 @@ export const GlareCard = ({
     "--radius": "48px",
     "--easing": "ease",
     "--transition": "var(--duration) var(--easing)",
-    // CRITICAL FIX: Allows vertical scroll but captures horizontal/pointer interaction
-    touchAction: "pan-y", 
+    // CHANGED: "none" ensures your finger drags the glare, not the page scroll.
+    touchAction: "none", 
   } as any;
 
   const backgroundStyle = {
@@ -94,11 +94,8 @@ export const GlareCard = ({
       onPointerEnter={() => {
         isPointerInside.current = true;
         if (refElement.current) {
-          setTimeout(() => {
-            if (isPointerInside.current) {
-              refElement.current?.style.setProperty("--duration", "0s");
-            }
-          }, 300);
+           // CHANGED: Removed setTimeout. Instant reaction.
+           refElement.current?.style.setProperty("--duration", "0s");
         }
       }}
       onPointerLeave={() => {

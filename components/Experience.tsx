@@ -54,18 +54,18 @@ const ExperienceCard = ({
     <motion.div
       initial={{ opacity: 0, x: -20 }}
       whileInView={{ opacity: 1, x: 0 }}
-      // FIX: Use percentage to adapt to mobile screen heights better
-      viewport={{ once: true, margin: "-20%" }}
+      viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      // FIX: Add tactile feedback for touch devices
+      // CHANGED: Ensures scale effect happens on touch
       whileTap={{ scale: 0.98 }}
-      className="relative group"
+      className="relative group cursor-pointer"
     >
       {/* Dot on the timeline */}
-      <div className="absolute -left-[35px] md:-left-[51px] top-6 h-4 w-4 rounded-full border-2 border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 group-hover:border-blue-500 group-hover:scale-125 transition-all duration-300 z-10" />
+      {/* CHANGED: Added group-active classes for mobile touch feedback */}
+      <div className="absolute -left-[35px] md:-left-[51px] top-6 h-4 w-4 rounded-full border-2 border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 group-hover:border-blue-500 group-active:border-blue-500 group-hover:scale-125 group-active:scale-125 transition-all duration-300 z-10" />
 
-      {/* FIX: Add 'active:' classes for touch state feedback */}
-      <div className="flex flex-col md:flex-row gap-4 md:gap-10 items-start p-6 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/50 hover:bg-neutral-100 dark:hover:bg-neutral-900 active:bg-neutral-100 dark:active:bg-neutral-800 transition-colors duration-300 backdrop-blur-sm">
+      {/* CHANGED: Added group-active for border color on touch */}
+      <div className="flex flex-col md:flex-row gap-4 md:gap-10 items-start p-6 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/50 hover:bg-neutral-100 dark:hover:bg-neutral-900 active:bg-neutral-100 dark:active:bg-neutral-800 group-hover:border-blue-500/50 group-active:border-blue-500/50 transition-colors duration-300 backdrop-blur-sm">
         
         {/* Date & Role Mobile */}
         <div className="md:w-1/4 flex flex-col justify-between shrink-0">
