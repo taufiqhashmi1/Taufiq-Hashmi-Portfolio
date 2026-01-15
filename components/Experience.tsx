@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   motion,
   useTransform,
   useScroll,
+  useVelocity,
   useSpring,
 } from "motion/react";
+import { cn } from "@/lib/utils";
 
 export default function ExperienceSection() {
   const ref = useRef<HTMLDivElement>(null);
@@ -14,6 +16,9 @@ export default function ExperienceSection() {
     target: ref,
     offset: ["start start", "end end"],
   });
+
+  // Calculate the height of the SVG beam based on scroll
+  const contentHeight = useTransform(scrollYProgress, [0, 0.8], [0, 1000]); // Adjust 1000 based on content length estimate or calculate dynamically
 
   return (
     <div id="experience" className="w-full bg-white dark:bg-neutral-950 font-sans md:px-10 py-20">
@@ -56,16 +61,12 @@ const ExperienceCard = ({
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      // CHANGED: Ensures scale effect happens on touch
-      whileTap={{ scale: 0.98 }}
-      className="relative group cursor-pointer"
+      className="relative group"
     >
       {/* Dot on the timeline */}
-      {/* CHANGED: Added group-active classes for mobile touch feedback */}
-      <div className="absolute -left-[35px] md:-left-[51px] top-6 h-4 w-4 rounded-full border-2 border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 group-hover:border-blue-500 group-active:border-blue-500 group-hover:scale-125 group-active:scale-125 transition-all duration-300 z-10" />
+      <div className="absolute -left-[35px] md:-left-[51px] top-6 h-4 w-4 rounded-full border-2 border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 group-hover:border-blue-500 group-hover:scale-125 transition-all duration-300 z-10" />
 
-      {/* CHANGED: Added group-active for border color on touch */}
-      <div className="flex flex-col md:flex-row gap-4 md:gap-10 items-start p-6 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/50 hover:bg-neutral-100 dark:hover:bg-neutral-900 active:bg-neutral-100 dark:active:bg-neutral-800 group-hover:border-blue-500/50 group-active:border-blue-500/50 transition-colors duration-300 backdrop-blur-sm">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-10 items-start p-6 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/50 hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors duration-300 backdrop-blur-sm">
         
         {/* Date & Role Mobile */}
         <div className="md:w-1/4 flex flex-col justify-between shrink-0">

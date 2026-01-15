@@ -15,7 +15,7 @@ export const GlareCard = ({
     background: { x: 50, y: 50 },
     rotate: { x: 0, y: 0 },
   });
-
+  
   const containerStyle = {
     "--m-x": "50%",
     "--m-y": "50%",
@@ -29,8 +29,6 @@ export const GlareCard = ({
     "--radius": "48px",
     "--easing": "ease",
     "--transition": "var(--duration) var(--easing)",
-    // CHANGED: "none" ensures your finger drags the glare, not the page scroll.
-    touchAction: "none", 
   } as any;
 
   const backgroundStyle = {
@@ -58,6 +56,8 @@ export const GlareCard = ({
   return (
     <div
       style={containerStyle}
+      // Fixed: Removed fixed width w-[320px], added w-full.
+      // className is now applied to the root container for proper sizing in grids.
       className={cn(
         "relative isolate [contain:layout_style] [perspective:600px] transition-transform duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] will-change-transform w-full",
         className
@@ -94,8 +94,11 @@ export const GlareCard = ({
       onPointerEnter={() => {
         isPointerInside.current = true;
         if (refElement.current) {
-           // CHANGED: Removed setTimeout. Instant reaction.
-           refElement.current?.style.setProperty("--duration", "0s");
+          setTimeout(() => {
+            if (isPointerInside.current) {
+              refElement.current?.style.setProperty("--duration", "0s");
+            }
+          }, 300);
         }
       }}
       onPointerLeave={() => {
@@ -109,6 +112,7 @@ export const GlareCard = ({
     >
       <div className="h-full grid will-change-transform origin-center transition-transform duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] [transform:rotateY(var(--r-x))_rotateX(var(--r-y))] rounded-[var(--radius)] border border-slate-800 hover:[--opacity:0.6] hover:[--duration:200ms] hover:[--easing:linear] hover:filter-none overflow-hidden">
         <div className="w-full h-full grid [grid-area:1/1] mix-blend-soft-light [clip-path:inset(0_0_0_0_round_var(--radius))]">
+          {/* Fixed: Inner content div handles background but lets parent determine layout */}
           <div className="h-full w-full bg-slate-950">
             {children}
           </div>
